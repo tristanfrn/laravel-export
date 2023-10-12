@@ -43,7 +43,9 @@ class ExportCommand extends Command
         $this->runBeforeHooks();
 
         $this->info('Exporting site...');
-        $this->info('Forked version 10/23');
+        $this->info('Forked version 1023-1');
+
+        $started_at = time();
 
         $exporter->export();
 
@@ -52,6 +54,10 @@ class ExportCommand extends Command
         } else {
             $this->info('Files were saved to `dist`');
         }
+
+        $execution_time = round((time()-$started_at)/60);
+
+        $this->info('Execution time: '.$execution_time.' minutes');
 
         $this->runAfterHooks();
     }
