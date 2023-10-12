@@ -43,6 +43,7 @@ class ExportCommand extends Command
         $this->runBeforeHooks();
 
         $this->info('Exporting site...');
+        $this->info('Forked version');
 
         $exporter->export();
 
