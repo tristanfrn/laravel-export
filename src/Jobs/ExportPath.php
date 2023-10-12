@@ -30,9 +30,13 @@ class ExportPath
         // Fix to prevent crash on 301
 
         if($response->status() == 200){
+
             $destination->write($this->normalizePath($this->path), $response->content());
+
         }else if($response->status() !== 200){
+
             throw new RuntimeException("Path [{$this->path}] returned status code [{$response->status()}]");
+            
         }
 
     }

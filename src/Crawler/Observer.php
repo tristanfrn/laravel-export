@@ -28,18 +28,30 @@ class Observer extends CrawlObserver
 
     public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null): void
     {
-        if ($response->getStatusCode() !== 200) {
-            if (! empty($foundOnUrl)) {
-                throw new RuntimeException("URL [{$url}] found on [{$foundOnUrl}] returned status code [{$response->getStatusCode()}]");
-            }
 
-            throw new RuntimeException("URL [{$url}] returned status code [{$response->getStatusCode()}]");
+        // Fix for 301 
+        
+        if($response->getStatusCode() === 200){
+
+            $this->destination->write(
+                $this->normalizePath($url->getPath()),
+                (string) $response->getBody()
+            );
+
         }
 
-        $this->destination->write(
-            $this->normalizePath($url->getPath()),
-            (string) $response->getBody()
-        );
+        // if ($response->getStatusCode() !== 200) {
+        //     if (! empty($foundOnUrl)) {
+        //         throw new RuntimeException("URL [{$url}] found on [{$foundOnUrl}] returned status code [{$response->getStatusCode()}]");
+        //     }
+
+        //     throw new RuntimeException("URL [{$url}] returned status code [{$response->getStatusCode()}]");
+        // }
+
+        // $this->destination->write(
+        //     $this->normalizePath($url->getPath()),
+        //     (string) $response->getBody()
+        // );
     }
 
     public function crawlFailed(UriInterface $url, RequestException $requestException, ?UriInterface $foundOnUrl = null): void
