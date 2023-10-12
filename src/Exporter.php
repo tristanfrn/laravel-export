@@ -96,12 +96,14 @@ class Exporter
         }
 
         if ($this->crawl) {
+            echo "Crawling site...\n";
             $this->dispatcher->dispatchNow(
                 new CrawlSite()
             );
         }
 
         foreach ($this->paths as $path) {
+            echo "Exporting ".count($this->paths)." paths...\n";
             $this->dispatcher->dispatchNow(
                 new ExportPath($path)
             );
